@@ -7,16 +7,16 @@ const router = express.Router();
 
 router.post('/signup', async(req, res) => {
     try{
-        const {username, email, password} = req.body;
+        const {channelName, email, password} = req.body;
         
-        if(!username || !email || !password){
+        if(!channelName || !email || !password){
             return res.status(400).json({message: "Please fill all the fields"});
         }
 
-        const existingUsername = await User.findOne({username});
+        const existingChannelName = await User.findOne({channelName});
 
-        if(existingUsername){
-            return res.status(400).json({message: "Username already taken."});
+        if(existingChannelName){
+            return res.status(400).json({message: "Channel name already taken."});
         }
 
         const existingEmail = await User.findOne({email});
@@ -28,7 +28,7 @@ router.post('/signup', async(req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = User.create({
-            username,
+            channelName,
             email,
             password: hashedPassword,
         });

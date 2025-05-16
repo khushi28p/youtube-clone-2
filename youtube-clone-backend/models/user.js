@@ -1,37 +1,30 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    username: {
+    channelName: {
         type: String,
-        required: true,
+        required: [true, "Channel name is required"],
         unique: true,
         trim: true,
         minlength: 3,
-        maxlength: 20,
-        message: "Username must be between 3 and 20 characters",
-        match: [/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"],
+        maxlength: 50,
     },
     email: {
         type: String,
-        required: true,
+        required: [true, "Email is required"],
         unique: true,
         trim: true,
         lowercase: true,
-        match: [/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/, "Please enter a valid email address"],
-        message: "Email must be a valid email address",
+        match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        'Please add a valid email'
+      ],
     },
     password: {
         type: String,
         required: true,
         minlength: 6,
         message: "Password must contain at least 6 characters",
-    },
-    channelName: {
-        type: String,
-        unique: true,
-        trim: true,
-        minlength: 3,
-        maxlength: 50,
     },
     profilePicture: {
         type: String,
