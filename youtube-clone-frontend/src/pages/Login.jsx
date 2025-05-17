@@ -1,18 +1,14 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import Login from "./Login";
+import React, {useState} from 'react';
+import axios from 'axios';
 
-const Signup = () => {
-    const [channelName, setChannelName] = useState("");
+const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = async(e) => {
         e.preventDefault();
         try{
-            const response = await axios.post("http://localhost:5000/api/auth/signup", {
-                channelName,
+            const response = await axios.post("http://localhost:5000/api/auth/login", {
                 email,
                 password,
             });
@@ -25,13 +21,9 @@ const Signup = () => {
         }
     }
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold py-10">Signup</h1>
+    <div className='flex flex-col items-center justify-center'>
+      <h1 className="text-4xl font-bold py-10">Login</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <label htmlFor="channelName" className="flex flex-col">
-          <span className="text-sm font-semibold">Channel name</span>
-          <input type="text" name="channelName" value={channelName} onChange={(e) => setChannelName(e.target.value)} className="border rounded-md px-2 py-1" />
-        </label>
         <label htmlFor="email" className="flex flex-col">
           <span className="text-sm font-semibold">Email</span>
           <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} className="border rounded-md px-2 py-1" />
@@ -40,12 +32,10 @@ const Signup = () => {
           <span className="text-sm font-semibold">Password</span>
           <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className="border rounded-md px-2 py-1" />
         </label>
-        <button type="submit" className="border px-4 py-1 my-6 rounded-md bg-blue-600">Signup</button>
+        <button type="submit" className="border px-4 py-1 my-6 rounded-md bg-blue-600">Login</button>
       </form>
-      <p>Already have an account? <Link to="/login">Login</Link></p>
-      
     </div>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Login
