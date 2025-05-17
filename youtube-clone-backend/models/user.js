@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
         maxlength: 500,
         default: '',
     },
-    subscribersCount: {
+    subscribers: {
         type: Number,
         default: 0,
     },
@@ -74,4 +74,4 @@ const userSchema = new mongoose.Schema({
 }
 );
 
-export const User = mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema);
