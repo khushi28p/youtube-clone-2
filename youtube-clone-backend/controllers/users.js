@@ -1,68 +1,49 @@
 import User from "../models/user.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
-export const signup = async(req, res) => {
-    try{
-        const {channelName, email, password} = req.body;
-        
-        if(!channelName || !email || !password){
-            return res.status(400).json({message: "Please fill all the fields"});
+export const updateUser = async(req, res, next) => { 
+    if(req.params.id === req.user.id){
+        try{
+            const updatedUser = await User.findByIdAndUpdate(req.params.id,{
+                $set: res.body
+            }, {
+                new: true
+            })
+            res.status(200).json(updatedUser)
+        } catch(error){
+            res.status(500).json({message: "Internal server error"});
         }
-
-        const existingChannelName = await User.findOne({channelName});
-
-        if(existingChannelName){
-            return res.status(400).json({message: "Channel name already taken."});
-        }
-
-        const existingEmail = await User.findOne({email});
-
-        if(existingEmail){
-            return res.status(400).json({message: "Email already registered."});
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = User.create({
-            channelName,
-            email,
-            password: hashedPassword,
-        });
-
-        res.status(201).json({
-            message: "User created successfully"
-        });
-
-    } catch(error){
-        res.status(500).json({message: "Internal server error"});
     }
-};
+}
 
-export const login = async(req, res) => {
-    try{
-        const {email, password} = req.body;
-
-        if(!email || !password){
-            return res.status(400).json({message: "Please fill all the fields"});
+export const deleteUser = async(req, res, next) => {
+    if(req.params.id === req.user.id){
+        try{
+            await User.findByIdAndDelete(
+                req.params.id,
+            )
+            res.status(200).json({message:"User deleted successfully!!"})
+        } catch(error){
+            res.status(500).json({message: "Internal server error"});
         }
-
-        const user = await User.findOne({email});
-        if(!user){
-            return res.status(400).json({message: "User not found"});
-        }
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if(!isPasswordValid){
-            return res.status(400).json({message: "Invalid password"});
-        }
-
-        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
-
-        res.status(200).json({
-            message: "Login successful",
-            token
-        })
-    } catch(error){
-        res.status(500).json({message: "Internal server error"});
     }
-};
+}
+
+export const getUser = async(req, res) => {
+
+}
+
+export const subscribeUser = async(req, res) => {
+
+}
+
+export const unsubscribeUser = async(req, res) => {
+
+}
+
+export const likeVideo = async(req, res) => {
+
+}
+
+export const dislikeVideo = async(req, res) => {
+    
+}
