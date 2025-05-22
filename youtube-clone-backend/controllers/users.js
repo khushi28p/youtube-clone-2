@@ -28,22 +28,22 @@ export const deleteUser = async(req, res, next) => {
     }
 }
 
-export const getUser = async(req, res) => {
+export const getUser = async(req, res, next) => {
 
 }
 
-export const subscribeUser = async(req, res) => {
+export const subscribeUser = async(req, res, next) => {
 
 }
 
-export const unsubscribeUser = async(req, res) => {
+export const unsubscribeUser = async(req, res, next) => {
 
 }
 
-export const likeVideo = async(req, res) => {
+export const likeVideo = async(req, res, next) => {
 
 }
 
-export const dislikeVideo = async(req, res) => {
+export const dislikeVideo = async(req, res, next) => {
     
 }
