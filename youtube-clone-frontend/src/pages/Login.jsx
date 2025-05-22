@@ -18,15 +18,19 @@ const Login = () => {
                 email,
                 password,
             });
+
             setMessage(response.data.message);
-            if(response.status === 201){
+            setError("");
+
+            if(response.status === 200 && response.data.token){
+                localStorage.setItem("token", response.data.token);
                 alert("Successfully logged in!!");
                 setEmail("");
                 setPassword("");
                 setLoading(false);
                 setTimeout(() => {
                   navigate("/");
-                }, 1500);
+                }, 1000);
             }
         } catch(error){
             console.log("Login failed", error);
