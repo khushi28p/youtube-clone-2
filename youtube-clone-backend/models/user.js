@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    subscribedTo: [
+    subscribedUsers: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
