@@ -1,3 +1,6 @@
+import  User from "../models/user.js";
+import Video from "../models/video.js"
+
 export const addVideo = async(req, res) => {
     const newVideo = new Video({
         userId: req.user.id, ...req.body
@@ -55,5 +58,54 @@ export const getVideo = async(req, res) => {
     }
     catch(error){
         res.status(500).json({message: "Internal server error"});   
+    }
+}
+
+export const addView = async(req, res) => {
+    try{
+        await Video.findByIdAndUpdate(req.params.id, {
+            $inc: {
+                views: 1
+            }
+        })
+
+        res.status(200).json({message: "The view has been increased"});
+    } catch(error){
+        res.status(500).json({message: "Internal server error"});
+    }
+}
+
+export const getTrending = async(req, res) => {
+    try{
+        const videos = await Video.find().sort({views: -1});
+        res.status(200).json(videos);
+    }catch(error){
+        res.status(500).json({message:"Internal server error"});
+    }
+}
+
+export const getRandom = async(req, res) => {
+    try{
+        const videos = await Video.aggregate([{$sample: {size: 40}}]);
+        res.status(200).json(videos);
+    } catch(error){
+        res.status(500).json({message: "Internal server error"});
+    }
+}
+
+export const getSubscribed = async(req, res) => {
+    try{
+        const user = await User.findById(req.user.id);
+        const subscribedChannels = User.subscribedUsers;
+
+        const list = Promise.all(
+            subscribedChannels.map((channelId) => {
+                return Video.find({userId: channelId});
+            })
+        );
+
+        res.status(200).json(list);
+    } catch(error){
+        res.status(500).json({message: "Internal server error"});
     }
 }
