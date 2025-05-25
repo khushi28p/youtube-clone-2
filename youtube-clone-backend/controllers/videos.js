@@ -1,4 +1,4 @@
-import  User from "../models/user.js";
+import User from "../models/user.js";
 import Video from "../models/video.js"
 
 export const addVideo = async(req, res) => {
@@ -17,7 +17,7 @@ export const addVideo = async(req, res) => {
 
 export const updateVideo = async(req, res) => {
     try{
-        const video = await Video.findByIdAndUpdate(req.params.id);
+        const video = await Video.findById(req.params.id);
         if(!video) return res.status(404).json({message: "Video not found"});
 
         if(req.user.id === video.userId){
@@ -96,15 +96,15 @@ export const getRandom = async(req, res) => {
 export const getSubscribed = async(req, res) => {
     try{
         const user = await User.findById(req.user.id);
-        const subscribedChannels = User.subscribedUsers;
+        const subscribedChannels = user.subscribedUsers;
 
-        const list = Promise.all(
+        const list = await Promise.all(
             subscribedChannels.map((channelId) => {
                 return Video.find({userId: channelId});
             })
         );
 
-        res.status(200).json(list);
+        res.status(200).json(list.flat().sort((a,b) => b.createdAt - a.createdAt));
     } catch(error){
         res.status(500).json({message: "Internal server error"});
     }

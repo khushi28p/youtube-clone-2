@@ -39,7 +39,7 @@ export const getUser = async(req, res) => {
 
 export const subscribeUser = async(req, res) => {
     try{
-        await User.findById(req.user.id, {
+        await User.findByIdAndUpdate(req.user.id, {
             $push: {subscribedUsers: req.params.id}
         });
 
@@ -55,12 +55,12 @@ export const subscribeUser = async(req, res) => {
 
 export const unsubscribeUser = async(req, res) => {
     try{
-        await User.findById(req.user.id, {
+        await User.findByIdAndUpdate(req.user.id, {
             $pull: {subscribedUsers: req.params.id}
         })
         await User.findByIdAndUpdate(req.params.id,
             {
-                $dec: {subscribers: -1}
+                $inc: {subscribers: -1}
             }
         );
         res.status(200).json({message: "Unsubscribed successfully!!"});

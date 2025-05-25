@@ -11,6 +11,8 @@ router.get("/find/:id", getVideo);
 router.put("/view/:id", addView);
 router.get("/trending", getTrending);
 router.get("/random", getRandom);
-router.get("/subscribed", auth, getSubscribed);
+router.get("/sub", auth, getSubscribed);
+router.get("/tags", );
+router.get("/search",)
 
 export default router;
