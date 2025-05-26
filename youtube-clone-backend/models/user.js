@@ -56,13 +56,13 @@ const userSchema = new mongoose.Schema({
             ref: 'Video',
         }
     ],
-    likedVideos:[
+    likes:[
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Video',
         }
     ],
-    dislikedVideos:[
+    dislikes:[
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Video'
