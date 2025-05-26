@@ -109,3 +109,24 @@ export const getSubscribed = async(req, res) => {
         res.status(500).json({message: "Internal server error"});
     }
 }
+
+export const getByTags = async(req, res) => {
+    const tags = req.query.tags.split(",");
+    try{
+        const videos = await Video.find({tags: {$in: tags}}).limit(20);
+        res.status(200).json(videos);
+    } catch(error){
+        res.status(500).json({message:"Internal server error"});
+    }
+
+}
+
+export const search = async(req, res) => {
+    const query = req.query.q;
+    try{
+        const videos = await Video.find({title: {$regex: query, $options:"i"}}).limit(40);
+        res.status(200).json(videos);
+    } catch(error){
+        res.status(500).json({message: "Internal server error"});
+    }
+}
