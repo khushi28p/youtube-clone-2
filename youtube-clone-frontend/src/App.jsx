@@ -7,7 +7,7 @@ import YouTubeLayout from './pages/YoutubeLayout.jsx'
 const App = () => {
   return (
     
-      
+    <div className='h-screen bg-cod-gray text-white '>
     <BrowserRouter>
     <Routes>
       <Route path='/signup' element={<Signup />} />
@@ -15,6 +15,7 @@ const App = () => {
       <Route path='/' element={<YouTubeLayout />} />
     </Routes>
     </BrowserRouter>
+    </div>
   )
 }
 
