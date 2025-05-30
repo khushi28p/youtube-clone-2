@@ -1,67 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import VideoCard from './VideoCard';
+import axios from 'axios';
 
 const MainContent = () => {
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    const fetchVideos = async() => {
+      const res = await axios.get("http://localhost:5000/api/videos/random");
+      setVideos(res.data);
+    }
+
+    fetchVideos();
+  }, [])
+
   const categories = [
     'All', 'Music', 'Source code', 'Podcasts', 'Computer programming',
     'Shark Tank', 'Study skills', 'Live', 'Disha Vakani', 'Web series', 'Frequencies', 'Mantras'
-  ];
-
-  const videos = [
-    {
-      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
-      title: 'Say goodbye to blank-page scares and jump-start ideas faster',
-      channel: 'Grammarly',
-      views: 'Sponsored',
-      time: 'Watch', // Special case for sponsored
-      duration: 'Download', // Special case for sponsored
-      avatar: 'G',
-    },
-    {
-      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
-      title: 'Build and Deploy a Full Stack MERN Social Media App with Auth, Pagination, Comment...',
-      channel: 'Javascript Mastery',
-      views: '533K views',
-      time: '3 years ago',
-      duration: '7:28:29',
-      avatar: 'JM',
-    },
-    {
-      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
-      title: 'Medical Dreams - E02 - Ratta Kaise Maare? | Sharmnen Joshi | A Girlyapa Original Series',
-      channel: 'Girlyapa',
-      views: '2.8M views',
-      time: '3 months ago',
-      duration: '34:32',
-      avatar: 'G',
-    },
-    {
-      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
-      title: 'YOU WILL NOT BE SAME',
-      channel: 'Channel Name 4',
-      views: '1.2M views',
-      time: '6 months ago',
-      duration: '12:06',
-      avatar: 'C4',
-    },
-    {
-      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
-      title: 'Another interesting video title here',
-      channel: 'Creator Name 5',
-      views: '99K views',
-      time: '1 month ago',
-      duration: '8:45',
-      avatar: 'C5',
-    },
-    {
-      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
-      title: 'How to learn React in 2024',
-      channel: 'Coding Tutorials',
-      views: '500K views',
-      time: '2 weeks ago',
-      duration: '15:30',
-      avatar: 'CT',
-    },
   ];
 
   return (
@@ -81,8 +36,8 @@ const MainContent = () => {
 
       {/* Video Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-4 gap-y-8">
-        {videos.map((video, index) => (
-          <VideoCard key={index} video={video} />
+        {videos.map((video, index ) => (
+          <VideoCard key={video._id || index} video={video} />
         ))}
       </div>
     </main>
