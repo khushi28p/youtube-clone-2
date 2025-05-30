@@ -9,7 +9,7 @@ const MainContent = () => {
 
   const videos = [
     {
-      thumbnail: '/youtube_logo.png',
+      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
       title: 'Say goodbye to blank-page scares and jump-start ideas faster',
       channel: 'Grammarly',
       views: 'Sponsored',
@@ -18,7 +18,7 @@ const MainContent = () => {
       avatar: 'G',
     },
     {
-      thumbnail: '/youtube_logo.png',
+      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
       title: 'Build and Deploy a Full Stack MERN Social Media App with Auth, Pagination, Comment...',
       channel: 'Javascript Mastery',
       views: '533K views',
@@ -27,7 +27,7 @@ const MainContent = () => {
       avatar: 'JM',
     },
     {
-      thumbnail: '/youtube_logo.png',
+      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
       title: 'Medical Dreams - E02 - Ratta Kaise Maare? | Sharmnen Joshi | A Girlyapa Original Series',
       channel: 'Girlyapa',
       views: '2.8M views',
@@ -36,7 +36,7 @@ const MainContent = () => {
       avatar: 'G',
     },
     {
-      thumbnail: '/youtube_logo.png',
+      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
       title: 'YOU WILL NOT BE SAME',
       channel: 'Channel Name 4',
       views: '1.2M views',
@@ -45,7 +45,7 @@ const MainContent = () => {
       avatar: 'C4',
     },
     {
-      thumbnail: '/youtube_logo.png',
+      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
       title: 'Another interesting video title here',
       channel: 'Creator Name 5',
       views: '99K views',
@@ -54,7 +54,7 @@ const MainContent = () => {
       avatar: 'C5',
     },
     {
-      thumbnail: '/youtube_logo.png',
+      thumbnail: 'https://i.ytimg.com/vi/bM_yQ92j35E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAgXo7K-Qk7b-J_f-y6N7r-n4k-7w',
       title: 'How to learn React in 2024',
       channel: 'Coding Tutorials',
       views: '500K views',
