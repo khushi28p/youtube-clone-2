@@ -27,7 +27,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-60 bg-black p-4 pt-20 fixed top-0 left-0 h-screen overflow-y-auto border-r border-zinc-800">
+    <aside className="w-60 bg-black p-4 pt-20 fixed top-0 left-0 h-screen overflow-y-auto scrollbar-hide">
       <nav className="mb-6">
         {primaryNavItems.map((item, index) => (
           <div key={index} className="flex items-center p-2 rounded-lg hover:bg-zinc-800 cursor-pointer mb-1">
