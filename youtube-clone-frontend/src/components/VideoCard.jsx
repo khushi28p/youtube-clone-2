@@ -1,7 +1,8 @@
 import React from 'react'
+import { UserIcon } from '@heroicons/react/24/outline';
 
 const VideoCard = ({video}) => {
-  const {  _id, title, thumbnailUrl, videoUrl, views, createdAt, user } = video;
+  const { title, thumbnailUrl, videoUrl, views, createdAt, userId } = video;
 
   const formatViews = (num) => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M views';
@@ -27,8 +28,8 @@ const VideoCard = ({video}) => {
     return `${years} years ago`;
   };
 
-  const channelName = user ? user.name : 'Unknown Channel';
-  const channelAvatar = user ? user.avatar : 'https://via.placeholder.com/48/0000FF/FFFFFF?text=?'; // Default placeholder
+  const name = userId ? userId.channelName : 'Unknown Channel';
+  const avatar = userId ? userId.profilePicture : null; // Default placeholder
 
   const duration = "10:30";
 
@@ -47,17 +48,23 @@ const VideoCard = ({video}) => {
       {/* Video Details */}
       <div className="flex space-x-3">
         {/* Channel Avatar */}
-        <div className="h-9 w-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold flex-shrink-0 mt-1">
-          {channelAvatar}
-        </div>
+        {avatar ? (
+          // If channelAvatarUrl exists, display an image
+          <img src={avatar} alt={name} className="h-9 w-9 rounded-full flex-shrink-0 mt-1 object-cover" />
+        ) : (
+          <div className="h-9 w-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 mt-1">
+            <UserIcon className="h-6 w-6" /> 
+          </div>
+        )}
+
         {/* Text Details */}
         <div className="flex flex-col flex-grow">
           <h3 className="text-white text-md font-semibold line-clamp-2 leading-tight mb-1">
             {title}
           </h3>
-          <p className="text-gray-400 text-sm">{channelName}</p>
+          <p className="text-gray-400 text-sm">{name}</p>
           <p className="text-gray-400 text-sm">
-            {views} • {timeAgo(createdAt)}
+            {formatViews(views)} • {timeAgo(createdAt)}
           </p>
         </div>
       </div>

@@ -87,7 +87,10 @@ export const getTrending = async(req, res) => {
 export const getRandom = async(req, res) => {
     try{
         const videos = await Video.aggregate([{$sample: {size: 40}}]);
-        res.status(200).json(videos);
+        const videoIds = videos.map(video => video._id);
+        const populatedVideos = await Video.find({_id: {$in: videoIds}}).populate("userId", "channelName profilePicture");
+
+        res.status(200).json(populatedVideos);
     } catch(error){
         res.status(500).json({message: "Internal server error"});
     }

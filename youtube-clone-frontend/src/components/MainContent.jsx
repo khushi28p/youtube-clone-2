@@ -22,7 +22,7 @@ const MainContent = () => {
   return (
     <main className="flex-1 p-6 ml-60 overflow-y-auto bg-black"> 
       {/* Categories/Filters */}
-      <div className="flex items-center space-x-3 mb-6 overflow-x-auto scrollbar-hide sticky top-0 z-10 bg-black pb-2 -mx-8 px-8">
+      <div className="flex items-center space-x-3 mb-6 overflow-x-auto scrollbar-hide sticky top-0 z-10 bg-black pb-2 -mx-8 px-8 pt-2">
         {categories.map((category, index) => (
           <button
             key={index}
