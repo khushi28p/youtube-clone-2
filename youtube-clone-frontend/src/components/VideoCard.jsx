@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { UserIcon } from '@heroicons/react/24/outline';
+import { format } from 'timeago.js';
+import axios from 'axios';
 
 const VideoCard = ({video}) => {
   const { title, thumbnailUrl, videoUrl, views, createdAt, userId } = video;
@@ -10,26 +12,8 @@ const VideoCard = ({video}) => {
     return num + ' views';
   };
 
-  const timeAgo = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const seconds = Math.round((now - date) / 1000);
-    const minutes = Math.round(seconds / 60);
-    const hours = Math.round(minutes / 60);
-    const days = Math.round(hours / 24);
-    const months = Math.round(days / 30.4);
-    const years = Math.round(days / 365);
-
-    if (seconds < 60) return `${seconds} seconds ago`;
-    if (minutes < 60) return `${minutes} minutes ago`;
-    if (hours < 24) return `${hours} hours ago`;
-    if (days < 30) return `${days} days ago`;
-    if (months < 12) return `${months} months ago`;
-    return `${years} years ago`;
-  };
-
-  const name = userId ? userId.channelName : 'Unknown Channel';
-  const avatar = userId ? userId.profilePicture : null; // Default placeholder
+  const name = userId.channelName;
+  const avatar = userId.profilePicture; // Default placeholder
 
   const duration = "10:30";
 
@@ -64,7 +48,7 @@ const VideoCard = ({video}) => {
           </h3>
           <p className="text-gray-400 text-sm">{name}</p>
           <p className="text-gray-400 text-sm">
-            {formatViews(views)} • {timeAgo(createdAt)}
+            {formatViews(views)} • {format(createdAt)}
           </p>
         </div>
       </div>

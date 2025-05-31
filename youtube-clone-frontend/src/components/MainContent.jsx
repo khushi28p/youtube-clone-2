@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react'
 import VideoCard from './VideoCard';
 import axios from 'axios';
 
-const MainContent = () => {
+const MainContent = ({type}) => {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     const fetchVideos = async() => {
-      const res = await axios.get("http://localhost:5000/api/videos/random");
+      const res = await axios.get(`http://localhost:5000/api/videos/${type}`);
       setVideos(res.data);
     }
 
     fetchVideos();
-  }, [])
+  }, [type]);
 
   const categories = [
     'All', 'Music', 'Source code', 'Podcasts', 'Computer programming',

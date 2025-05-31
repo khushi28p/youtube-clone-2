@@ -2,12 +2,13 @@ import React from 'react'
 import { HomeIcon, PlayIcon, ListBulletIcon, ClockIcon, FolderIcon, HandThumbUpIcon, PhotoIcon, QueueListIcon } from '@heroicons/react/24/outline';
 import { FireIcon } from '@heroicons/react/24/solid'; 
 import { ShoppingBagIcon, MusicalNoteIcon, FilmIcon, SignalIcon, HeartIcon, NewspaperIcon, TrophyIcon, AcademicCapIcon, AdjustmentsHorizontalIcon} from '@heroicons/react/24/outline'
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   const primaryNavItems = [
-    { icon: HomeIcon, name: 'Home' },
-    { icon: FireIcon, name: 'Shorts' }, // Using FireIcon as an example for Shorts
-    { icon: ListBulletIcon, name: 'Subscriptions' },
+    { icon: HomeIcon, name: 'Home', path: "/" },
+    { icon: FireIcon, name: 'Trending', path:"/trending" }, // Using FireIcon as an example for Shorts
+    { icon: ListBulletIcon, name: 'Subscriptions', path: "/subscription" },
   ];
 
   const youSectionItems = [
@@ -45,10 +46,10 @@ const Sidebar = () => {
     <aside className="w-60 bg-black p-4 pt-20 fixed top-0 left-0 h-screen overflow-y-auto scrollbar-hide">
       <nav className="mb-6">
         {primaryNavItems.map((item, index) => (
-          <div key={index} className="flex items-center p-2 rounded-lg hover:bg-zinc-800 cursor-pointer mb-1">
+          <Link to={item.path} key={index} className="flex items-center p-2 rounded-lg hover:bg-zinc-800 cursor-pointer mb-1">
             <item.icon className="h-6 w-6 text-white mr-4" />
             <span className="text-white text-sm">{item.name}</span>
-          </div>
+          </Link>
         ))}
       </nav>
 

@@ -12,7 +12,9 @@ const App = () => {
     <Routes>
       <Route path='/signup' element={<Signup />} />
       <Route path='/login' element={<Login />} />
-      <Route path='/' element={<YouTubeLayout />} />
+      <Route path='/trending' element={<YouTubeLayout type="trending" />} />
+      <Route path='/subscription' element={<YouTubeLayout type="sub" />} />
+      <Route path='/' element={<YouTubeLayout type="random" />} />
     </Routes>
     </BrowserRouter>
     </div>

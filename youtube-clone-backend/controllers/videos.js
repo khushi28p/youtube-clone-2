@@ -77,7 +77,7 @@ export const addView = async(req, res) => {
 
 export const getTrending = async(req, res) => {
     try{
-        const videos = await Video.find().sort({views: -1});
+        const videos = await Video.find().sort({views: -1}).populate("userId", "channelName profilePicture");
         res.status(200).json(videos);
     }catch(error){
         res.status(500).json({message:"Internal server error"});
@@ -96,22 +96,19 @@ export const getRandom = async(req, res) => {
     }
 }
 
-export const getSubscribed = async(req, res) => {
-    try{
-        const user = await User.findById(req.user.id);
-        const subscribedChannels = user.subscribedUsers;
+    export const getSubscribed = async(req, res) => {
+        try{
+            const user = await User.findById(req.user.id);
+            const subscribedChannels = user.subscribedUsers;
 
-        const list = await Promise.all(
-            subscribedChannels.map((channelId) => {
-                return Video.find({userId: channelId});
-            })
-        );
+            const videos = await Video.find({userId: {$in: subscribedChannels}}).populate("userId", "channelName profilePicture");
+            const sortedVideos = videos.sort((a,b) => b.createdAt - a.createdAt)
 
-        res.status(200).json(list.flat().sort((a,b) => b.createdAt - a.createdAt));
-    } catch(error){
-        res.status(500).json({message: "Internal server error"});
+            res.status(200).json(sortedVideos);
+        } catch(error){
+            res.status(500).json({message: "Internal server error"});
+        }
     }
-}
 
 export const getByTags = async(req, res) => {
     const tags = req.query.tags.split(",");
