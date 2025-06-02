@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     channelName: {
         type: String,
-        required: [true, "Channel name is required"],
         unique: true,
+        required:true,
         trim: true,
         minlength: 3,
         maxlength: 50,
@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
         minlength: 6,
         message: "Password must contain at least 6 characters",
     },
@@ -67,7 +66,11 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Video'
         }
-    ]
+    ],
+    fromGoogle:{
+        type:Boolean,
+        default:false,
+    }
 },
 {
     timestamps: true,

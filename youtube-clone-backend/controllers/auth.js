@@ -67,3 +67,30 @@ export const login = async(req, res) => {
         res.status(500).json({message: "Internal server error"});
     }
 };
+
+export const googleAuth = async(req, res) => {
+    try{
+        const user = await User.findOne({email: req.body.email});
+
+        if(user){
+            const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
+
+        res.status(200).json({
+            message: "Login successful", user
+        })
+        } else{
+            const newUser = User.create({
+                ...req.body,
+                fromGoogle: true
+            });
+
+            const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
+
+        res.status(200).json({
+            message: "Login successful", newUser
+        })
+        }
+    } catch(error){
+        res.status(500).json({message: "Internal server error"});
+    }
+}

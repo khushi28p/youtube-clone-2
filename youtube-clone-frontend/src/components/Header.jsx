@@ -34,7 +34,7 @@ const Header = () => {
           <BellIcon className="h-6 w-6 text-white cursor-pointer" />
           <Link>
             <button>
-              <img src={currentUser.user.profilePicture} alt={currentUser.user.channelName} className='h-10 rounded-full' />
+              <img src={currentUser.profilePicture} alt={currentUser.channelName} className='h-10 rounded-full' />
             </button>
           </Link>
       </div>
