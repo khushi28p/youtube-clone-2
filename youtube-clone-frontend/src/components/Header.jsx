@@ -1,8 +1,12 @@
 import React from 'react'
-import {  MagnifyingGlassIcon, BellIcon } from '@heroicons/react/24/outline'; // Example icons
+import {  MagnifyingGlassIcon, BellIcon, UserCircleIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outline'; // Example icons
 import { Bars3Icon } from '@heroicons/react/24/solid';
+import { Link} from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+  const {currentUser} = useSelector((state) => state.user);
+
   return (
     <header className="flex items-center justify-between px-4 h-16 bg-black fixed top-0 w-full z-20">
       
@@ -25,12 +29,26 @@ const Header = () => {
         </button>
       </div>
 
-      { <div className="flex items-center space-x-6">
-        <BellIcon className="h-6 w-6 text-white cursor-pointer" />
-        <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold cursor-pointer">
-          U
-        </div>
-      </div>}
+      { currentUser ? (
+        <div className='flex items-center gap-4'>
+          <BellIcon className="h-6 w-6 text-white cursor-pointer" />
+          <Link>
+            <button>
+              <img src={currentUser.user.profilePicture} alt={currentUser.user.channelName} className='h-10 rounded-full' />
+            </button>
+          </Link>
+      </div>
+    ) :(
+    <div className="flex items-center space-x-6">
+        <EllipsisVerticalIcon className="h-6 w-6 text-white cursor-pointer" />
+        <Link to="/login"> 
+          <button className="flex items-center justify-center gap-2 text-sm font-semibold border border-zinc-500 px-4 py-1 rounded-full self-center">
+            <UserCircleIcon className="h-6" />
+            Sign in
+          </button>
+        </Link>
+      </div>
+    )}
     </header>
   )
 }
