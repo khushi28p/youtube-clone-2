@@ -25,12 +25,12 @@ const Header = () => {
         </button>
       </div>
 
-      <div className="flex items-center space-x-6">
+      { <div className="flex items-center space-x-6">
         <BellIcon className="h-6 w-6 text-white cursor-pointer" />
         <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold cursor-pointer">
           U
         </div>
-      </div>
+      </div>}
     </header>
   )
 }
