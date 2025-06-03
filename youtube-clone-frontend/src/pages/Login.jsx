@@ -21,12 +21,13 @@ const Login = () => {
                 email,
                 password,
             });
-
-            if(dispatch(loginSuccess(response.data))){
+            
+            dispatch(loginSuccess(response.data))
+            
               setTimeout(() => {
                 navigate("/");
               }, 1000);
-            }
+            
         } catch(error){
             dispatch(loginFailure());
         }

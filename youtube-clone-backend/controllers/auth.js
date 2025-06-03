@@ -60,9 +60,11 @@ export const login = async(req, res) => {
 
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
 
+        const { password: hashedPassword, ...otherDetails } = user._doc; // user._doc contains the raw document
         res.status(200).json({
-            message: "Login successful", user
-        })
+            ...otherDetails,
+            token 
+        });
     } catch(error){
         res.status(500).json({message: "Internal server error"});
     }
@@ -75,9 +77,11 @@ export const googleAuth = async(req, res) => {
         if(user){
             const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
 
-        res.status(200).json({
-            message: "Login successful", user
-        })
+        const { password: hashedPassword, ...otherDetails } = user._doc;
+            res.status(200).json({
+                ...otherDetails,
+                token
+            });
         } else{
             const newUser = User.create({
                 ...req.body,
@@ -86,9 +90,11 @@ export const googleAuth = async(req, res) => {
 
             const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
 
-        res.status(200).json({
-            message: "Login successful", newUser
-        })
+        const { password: hashedPassword, ...otherDetails } = newUser._doc; 
+            res.status(200).json({
+                ...otherDetails,
+                token
+            });
         }
     } catch(error){
         res.status(500).json({message: "Internal server error"});

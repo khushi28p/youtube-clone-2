@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { UserIcon } from '@heroicons/react/24/outline';
 import { format } from 'timeago.js';
 import axios from 'axios';
+import { Link} from 'react-router-dom';
 
 const VideoCard = ({video}) => {
   const { title, thumbnailUrl, videoUrl, views, createdAt, userId } = video;
@@ -18,6 +19,7 @@ const VideoCard = ({video}) => {
   const duration = "10:30";
 
   return (
+    <Link to={`/video/${video._id}`}>
     <div className="flex flex-col cursor-pointer">
       {/* Thumbnail */}
       <div className="relative mb-2 w-full aspect-video rounded-lg overflow-hidden">
@@ -53,6 +55,7 @@ const VideoCard = ({video}) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 }
 
