@@ -29,7 +29,7 @@ export const deleteComment = async(req, res) => {
 
 export const getComments = async(req, res) => {
     try{
-        const comments = await Comment.find({videoId: req.params.videoId});
+        const comments = await Comment.find({videoId: req.params.videoId}).populate("userId", "channelName profilePicture");
         res.status(200).json(comments);
     } catch(error){
         res.status(500).json({message: "Internal server error"});

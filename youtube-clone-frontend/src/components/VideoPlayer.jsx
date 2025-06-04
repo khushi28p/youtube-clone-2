@@ -9,6 +9,7 @@ import { AiOutlineShareAlt, AiOutlineDownload } from 'react-icons/ai';
 import { MdVerified } from 'react-icons/md'; 
 import {BsThreeDots} from 'react-icons/bs';
 import { BiLike, BiDislike, BiSolidLike, BiSolidDislike } from "react-icons/bi";
+import Comment from './Comment';
 
 const VideoPlayer = () => {
     const {currentUser} = useSelector((state) => state.user);
@@ -222,6 +223,8 @@ const VideoPlayer = () => {
                     )}
                 </p>
             </div>
+
+            <Comment videoId={currentVideo._id} />
     </div>
   )
 }

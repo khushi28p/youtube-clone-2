@@ -3,11 +3,13 @@ import mongoose from "mongoose";
 const commentSchema = new mongoose.Schema({
     userId: {
         type: String,
-        required: true
+        required: true,
+        ref: "User"
     },
     videoId: {
         type:String,
-        required: true
+        required: true,
+        ref: "Video"
     },
     text: {
         type: String,
