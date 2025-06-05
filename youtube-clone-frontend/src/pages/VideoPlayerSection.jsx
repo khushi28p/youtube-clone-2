@@ -25,17 +25,15 @@ const VideoPlayerSection = () => {
     fetchVideo();
   }, [videoId, dispatch])
   return (
-    <div className="flex flex-col h-screen text-white "> 
-      <Header />
-      <div className="flex flex-col lg:flex-row flex-grow p-4 gap-4 overflow-auto px-16 mt-16">
+      <div className="flex flex-col lg:flex-row flex-grow min-h-0 overflow-auto"> 
+      
         <div className="lg:w-2/3 w-full"> 
             {videoId && <VideoPlayer videoId={videoId} />}
         </div>
         <div className="lg:w-1/3 w-full min-w-[280px]"> 
             <RecommendationSection tags={currentVideo.tags}/>
         </div>
-      </div>
-    </div>
+        </div>
   )
 }
 

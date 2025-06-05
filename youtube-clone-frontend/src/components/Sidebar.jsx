@@ -53,7 +53,7 @@ const SidebarItem = ({ icon: Icon, name, path }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({isOpen}) => {
   const { currentUser } = useSelector((state) => state.user);
 
   const primaryNavItems = useMemo(
@@ -106,7 +106,16 @@ const Sidebar = () => {
   );
 
   return (
-    <aside className="w-60 bg-black p-4 pt-20 fixed top-0 left-0 h-screen overflow-y-auto scrollbar-hide">
+    <aside className={`
+        fixed top-16 left-0 h-[calc(100vh-4rem)] bg-bg-dark z-10 
+        p-4 pt-4 overflow-y-auto scrollbar-hide 
+        transition-transform duration-300 ease-in-out
+        w-60      
+        md:w-60           
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${!isOpen && 'md:w-20 md:p-2'} 
+        
+      `}>
       <nav className="mb-2">
         {primaryNavItems.map((item) => (
           <SidebarItem key={item.name} {...item} /> 
