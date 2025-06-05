@@ -11,48 +11,36 @@ import {BsThreeDots} from 'react-icons/bs';
 import { BiLike, BiDislike, BiSolidLike, BiSolidDislike } from "react-icons/bi";
 import Comment from './Comment';
 
-const VideoPlayer = () => {
+const VideoPlayer = ({videoId}) => {
     const {currentUser} = useSelector((state) => state.user);
     const {currentVideo} = useSelector((state) => state.video);
     const dispatch = useDispatch();
 
-    const path = useLocation().pathname.split("/")[2];
-
     const [channel, setChannel] = useState({});
 
     useEffect(() => {
-        const fetchData = async() => {
-          console.log("fetching data for path:", path);
-            try{    
-                const videoRes = await axios.get(`http://localhost:5000/api/videos/find/${path}`);
-                
-                if(videoRes.data && videoRes.data.userId){
-                  const channelId = videoRes.data.userId;
+        const fetchChannel= async() => {
+          if (currentVideo && currentVideo.userId) {
+            const channelId = currentVideo.userId;
 
-                    const headers = {};
-                    if (currentUser && currentUser.token) {
-                        headers.Authorization = `Bearer ${currentUser.token}`;
-                        console.log("Token found in Redux, adding to headers for channel request.");
-                    } else {
-                        console.warn("No token found in currentUser. Channel request might fail with 401 if backend requires auth.");
-                    }
+            const headers = {};
+            if (currentUser && currentUser.token) {
+                headers.Authorization = `Bearer ${currentUser.token}`;
+            }
+            try{    
                   const channelRes = await axios.get(
                         `http://localhost:5000/api/users/find/${channelId}`,
                         { headers } 
                     );
                     setChannel(channelRes.data);
-                } else{
-                    console.warn("Video data or userId not found in video response");
-                }
-
-                dispatch(fetchSuccess(videoRes.data));
             } catch(error){
                 console.log(error);   
             }
+          }
         }
 
-        fetchData();
-    }, [path, dispatch, currentUser]);
+        fetchChannel();
+    }, [currentVideo, currentUser]);
 
     const handleLike = async() => {
       if (!currentUser) {

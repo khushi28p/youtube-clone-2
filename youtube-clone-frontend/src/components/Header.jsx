@@ -1,5 +1,5 @@
 import React from 'react'
-import {  MagnifyingGlassIcon, BellIcon, UserCircleIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outline'; // Example icons
+import {  MagnifyingGlassIcon, BellIcon, UserCircleIcon, EllipsisVerticalIcon, VideoCameraIcon } from '@heroicons/react/24/outline'; // Example icons
 import { Bars3Icon } from '@heroicons/react/24/solid';
 import { Link} from 'react-router-dom'
 import { useSelector } from 'react-redux';
@@ -30,8 +30,9 @@ const Header = () => {
       </div>
 
       { currentUser ? (
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center gap-6'>
           <BellIcon className="h-6 w-6 text-white cursor-pointer" />
+          <VideoCameraIcon className="h-6 w-6 text-white cursor-pointer" />
           <Link>
             <button>
               <img src={currentUser.profilePicture} alt={currentUser.channelName} className='h-10 rounded-full' />

@@ -113,7 +113,7 @@ export const getRandom = async(req, res) => {
 export const getByTags = async(req, res) => {
     const tags = req.query.tags.split(",");
     try{
-        const videos = await Video.find({tags: {$in: tags}}).limit(20);
+        const videos = await Video.find({tags: {$in: tags}}).populate("userId", "channelName").limit(20);
         res.status(200).json(videos);
     } catch(error){
         res.status(500).json({message:"Internal server error"});
