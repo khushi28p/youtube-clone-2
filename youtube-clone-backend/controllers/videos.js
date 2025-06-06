@@ -124,7 +124,7 @@ export const getByTags = async(req, res) => {
 export const search = async(req, res) => {
     const query = req.query.q;
     try{
-        const videos = await Video.find({title: {$regex: query, $options:"i"}}).limit(40);
+        const videos = await Video.find({title: {$regex: query, $options:"i"}}).populate("userId", "channelName profilePicture").limit(40);
         res.status(200).json(videos);
     } catch(error){
         res.status(500).json({message: "Internal server error"});

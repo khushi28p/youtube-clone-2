@@ -34,7 +34,7 @@ const VideoPlayer = ({videoId}) => {
                     );
                     setChannel(channelRes.data);
             } catch(error){
-                console.log(error);   
+                console.warn(error); 
             }
           }
         }
