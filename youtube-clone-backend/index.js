@@ -8,6 +8,7 @@ import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import videoRoutes from './routes/videos.js';
 import commentRoutes from './routes/comments.js';
+import uploadRoutes from './routes/upload.js';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/upload', uploadRoutes);
 app.use('/api/videos', videoRoutes);
 app.use('/api/comments', commentRoutes);
 

@@ -3,10 +3,12 @@ import {  MagnifyingGlassIcon, BellIcon, UserCircleIcon, EllipsisVerticalIcon, V
 import { Bars3Icon } from '@heroicons/react/24/solid';
 import { Link, useNavigate} from 'react-router-dom'
 import { useSelector } from 'react-redux';
+import UploadVideoForm from './UploadVideoForm';
 
 const Header = () => {
   const {currentUser} = useSelector((state) => state.user);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e) =>{
@@ -17,7 +19,23 @@ const Header = () => {
     }
   }
 
+  const openUploadModal = () => {
+    // Only open if a user is logged in
+    if (currentUser) {
+      setIsUploadModalOpen(true);
+    } else {
+      // Redirect to login or show a message if not logged in
+      alert("Please sign in to upload a video.");
+      navigate("/login"); 
+    }
+  };
+
+  const closeUploadModal = () => {
+    setIsUploadModalOpen(false);
+  };
+
   return (
+    <>
     <header className="flex items-center justify-between px-4 h-16 bg-black fixed top-0 w-full z-20">
       
       <div className="flex items-center space-x-4">
@@ -44,7 +62,10 @@ const Header = () => {
       { currentUser ? (
         <div className='flex items-center gap-6'>
           <BellIcon className="h-6 w-6 text-white cursor-pointer" />
-          <VideoCameraIcon className="h-6 w-6 text-white cursor-pointer" />
+          <VideoCameraIcon
+              className="h-6 w-6 text-white cursor-pointer"
+              onClick={openUploadModal}
+            />
           <Link>
             <button>
               <img src={currentUser.profilePicture} alt={currentUser.channelName} className='h-10 rounded-full' />
@@ -63,6 +84,22 @@ const Header = () => {
       </div>
     )}
     </header>
+
+    {isUploadModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+          <div className="relative bg-[#0f0f0f] p-8 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-zinc-700">
+            {/* Close button for the modal */}
+            <button
+              onClick={closeUploadModal}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl font-bold"
+            >
+              &times; {/* This is an 'x' character */}
+            </button>
+            <UploadVideoForm onClose={closeUploadModal} /> {/* Pass close function as a prop */}
+          </div>
+        </div>
+      )}
+      </>
   )
 }
 
