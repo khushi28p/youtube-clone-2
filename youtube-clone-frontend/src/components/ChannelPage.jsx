@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import { subscription } from '../redux/userSlice';
+import { Link } from 'react-router-dom';
+import { format } from 'timeago.js';
 
 const ChannelPage = () => {
     const {id} = useParams();
@@ -24,7 +26,7 @@ const ChannelPage = () => {
 
                 setChannel(channelRes.data);
 
-                const videoRes = await axios.get(`http://localhost:5000/api/videos/find/${id}`);
+                const videoRes = await axios.get(`http://localhost:5000/api/videos/channel/${id}`);
 
                 setVideos(Array.isArray(videoRes.data) ? videoRes.data : []);
             }
@@ -81,11 +83,15 @@ const ChannelPage = () => {
   return (
     <div className="bg-bg-dark min-h-[calc(100vh-4rem)] p-4 text-white">
       {/* Banner Image */}
-      {channel.bannerImage && (
-        <div className="w-full h-48 md:h-64 lg:h-80 bg-cover bg-center rounded-lg overflow-hidden mb-6"
-             style={{ backgroundImage: `url(${channel.bannerImage})` }}>
-        </div>
-      )}
+      <div
+      className="w-full h-48 bg-cover bg-center rounded-xl overflow-hidden mb-6"
+      style={{
+        backgroundImage: channel.bannerImage ? `url(${channel.bannerImage})` : 'none', // Set to 'none' if no image
+        backgroundColor: channel.bannerImage ? 'transparent' : '#282828' // Fallback to a dark grey color
+      }}
+    >
+
+    </div>
 
       {/* Channel Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start mb-8 border-b border-zinc-700 pb-6">
@@ -94,7 +100,7 @@ const ChannelPage = () => {
           <img
             src={channel.profilePicture}
             alt={channel.channelName}
-            className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover mr-0 md:mr-6 mb-4 md:mb-0 border-2 border-zinc-600"
+            className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover mr-0 md:mr-6 mb-4 md:mb-0"
           />
         ) : (
           <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-zinc-700 flex items-center justify-center text-4xl mr-0 md:mr-6 mb-4 md:mb-0 border-2 border-zinc-600">
@@ -106,7 +112,7 @@ const ChannelPage = () => {
         <div className="flex-1 text-center md:text-left">
           <h1 className="text-3xl font-bold mb-2">{channel.channelName}</h1>
           <p className="text-zinc-400 text-sm mb-2">
-            {channel.subscribers} subscribers
+            {channel.subscribers} subscribers • {videos.length} videos
           </p>
           <p className="text-zinc-300 text-sm max-w-2xl mb-4">
             {channel.description || 'No description provided.'}
@@ -132,17 +138,19 @@ const ChannelPage = () => {
       {/* Videos Section */}
       <h2 className="text-2xl font-bold mb-4">Videos</h2>
       {videos.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-3 gap-6">
           {videos.map((video) => (
             <Link to={`/video/${video._id}`} key={video._id} className="block group">
+              <div className="w-full aspect-video overflow-hidden rounded-lg mb-2">
               <img
                 src={video.thumbnailUrl}
                 alt={video.title}
-                className="w-full h-36 object-cover rounded-lg mb-2 transform group-hover:scale-105 transition-transform duration-200"
+                className="w-full h-full object-cover rounded-lg mb-2 transform group-hover:scale-105 transition-transform duration-200"
               />
+              </div>
               <h3 className="text-md font-semibold truncate">{video.title}</h3>
-              <p className="text-zinc-400 text-sm">{channel.channelName}</p>
-              {/* You might want to add views/timestamps here too */}
+              <p className="text-zinc-400 text-xs">{video.views} views • {format(video.createdAt)}</p>
+            
             </Link>
           ))}
         </div>

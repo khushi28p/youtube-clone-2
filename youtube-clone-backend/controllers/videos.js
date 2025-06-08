@@ -130,3 +130,12 @@ export const search = async(req, res) => {
         res.status(500).json({message: "Internal server error"});
     }
 }
+
+export const getVideosByChannel = async(req, res) => {
+    try{
+        const videos = await Video.find({userId: req.params.userId}).sort({createdAt: -1});
+        res.status(200).json(videos);
+    } catch(error){
+        res.status(500).json({message: "Internal server error"});
+    }
+}
