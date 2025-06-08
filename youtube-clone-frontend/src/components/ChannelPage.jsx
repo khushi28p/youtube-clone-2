@@ -28,7 +28,7 @@ const ChannelPage = () => {
 
                 const videoRes = await axios.get(`http://localhost:5000/api/videos/channel/${id}`);
 
-                setVideos(Array.isArray(videoRes.data) ? videoRes.data : []);
+                setVideos(videoRes.data);
             }
             catch(error){
                 console.error("Error fetching channel data:", error);
@@ -83,15 +83,11 @@ const ChannelPage = () => {
   return (
     <div className="bg-bg-dark min-h-[calc(100vh-4rem)] p-4 text-white">
       {/* Banner Image */}
-      <div
-      className="w-full h-48 bg-cover bg-center rounded-xl overflow-hidden mb-6"
-      style={{
-        backgroundImage: channel.bannerImage ? `url(${channel.bannerImage})` : 'none', // Set to 'none' if no image
-        backgroundColor: channel.bannerImage ? 'transparent' : '#282828' // Fallback to a dark grey color
-      }}
-    >
-
-    </div>
+      {channel.bannerImage && (
+        <div className="w-full h-48 bg-cover bg-center rounded-lg overflow-hidden mb-6"
+             style={{ backgroundImage: `url(${channel.bannerImage})` }}>
+        </div>
+      )}
 
       {/* Channel Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start mb-8 border-b border-zinc-700 pb-6">

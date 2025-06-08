@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import Video from "../models/video.js"
+import mongoose from "mongoose";
 
 export const addVideo = async(req, res) => {
     const newVideo = new Video({
@@ -133,7 +134,9 @@ export const search = async(req, res) => {
 
 export const getVideosByChannel = async(req, res) => {
     try{
-        const videos = await Video.find({userId: req.params.userId}).sort({createdAt: -1});
+        const userId = req.params.userId;
+        const id = new mongoose.Types.ObjectId(userId);
+        const videos = await Video.find({userId: id}).sort({createdAt: -1});
         res.status(200).json(videos);
     } catch(error){
         res.status(500).json({message: "Internal server error"});

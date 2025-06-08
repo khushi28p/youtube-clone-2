@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 const commentSchema = new mongoose.Schema({
     userId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "User"
     },
     videoId: {
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Video"
     },

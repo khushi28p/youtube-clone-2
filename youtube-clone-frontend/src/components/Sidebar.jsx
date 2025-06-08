@@ -56,13 +56,8 @@ const SidebarItem = ({ icon: Icon, name, path }) => {
 };
 
 const Sidebar = ({isOpen}) => {
-  const { currentUser, subscribedChannels } = useSelector((state) => {
-    console.log("Entire Redux State (from useSelector):", state);
-    console.log("State.user (from useSelector):", state.user);
-    return state.user || {}});
+  const { currentUser, subscribedChannels } = useSelector((state) => state.user || {});
 
-    console.log("currentUser (after destructuring):", currentUser);
-console.log("subscribedChannels (after destructuring):", subscribedChannels);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,7 +65,7 @@ console.log("subscribedChannels (after destructuring):", subscribedChannels);
       if (currentUser) {
         try {
           const res = await axios.get('http://localhost:5000/api/users/subscribedChannels', {
-            headers: {
+            headers: {  
               Authorization: `Bearer ${currentUser.token}`, 
             },
           });
