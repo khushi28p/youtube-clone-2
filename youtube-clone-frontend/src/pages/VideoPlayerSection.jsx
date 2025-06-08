@@ -17,6 +17,9 @@ const VideoPlayerSection = () => {
       try{
         const videoRes = await axios.get(`http://localhost:5000/api/videos/find/${videoId}`);
         dispatch(fetchSuccess(videoRes.data)); 
+
+        await axios.put(`http://localhost:5000/api/videos/view/${videoId}`); 
+        console.log("View count increased successfully!"); 
       }catch (error) {
         console.error("Error fetching video data:", error);
       }

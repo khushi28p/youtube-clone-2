@@ -3,7 +3,11 @@ import Video from "../models/video.js";
 
 export const addComment = async(req, res) => {
     try{
-        const newComment = Comment.create({...req.body, userId: req.user.id});
+        const newComment = await Comment.create({
+            ...req.body,
+            userId: new mongoose.Types.ObjectId(req.user.id), 
+            videoId: new mongoose.Types.ObjectId(req.body.videoId) 
+        });
         res.status(200).json({message: "Comment added successfully!!!"}, newComment);
     } catch(error){
         res.status(500).json({message: "Internal server error"});
@@ -13,14 +17,19 @@ export const addComment = async(req, res) => {
 export const deleteComment = async(req, res) => {
     try{
         const comment = await Comment.findById(req.params.id);
-        const video = await Video.findById(comment.videoId);
+        if (!comment) {
+            return res.status(404).json({ message: "Comment not found." });
+        }
 
-        if(req.user.id === comment.userId || req.user.id === video.userId){
+        const video = await Video.findById(comment.videoId);
+        const reqUserId = new mongoose.Types.ObjectId(req.user.id); 
+
+        if(reqUserId.equals(comment.userId) || (video && reqUserId.equals(video.userId))){ // Use .equals() for ObjectId comparison
             await Comment.findByIdAndDelete(req.params.id);
             res.status(200).json({message: "Comment deleted successfully!!!"});
         }
         else{
-            res.status(403).json({message: "You can only delete your comments!!!"});
+            res.status(403).json({message: "You can only delete your comments or comments on your videos!!!"});
         }
     } catch(error){
         res.status(500).json({message: "Internal server error"});

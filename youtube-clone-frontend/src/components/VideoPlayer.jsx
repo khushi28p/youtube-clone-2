@@ -145,6 +145,7 @@ const VideoPlayer = ({ videoId }) => {
       </h1>
 
       <div className="flex justify-between md:items-center mb-2 flex-wrap gap-y-3 gap-x-6">
+        <div className='flex align-center items-center gap-4'>
         <Link to={`/channel/${channel._id}`} className="flex items-center gap-3 cursor-pointer">
           {channel?.profilePicture ? (
             <img
@@ -181,6 +182,7 @@ const VideoPlayer = ({ videoId }) => {
               Sign In to Subscribe
             </Link>
           )}
+        </div>
         </div>
 
         <div className="flex items-center gap-3 text-gray-200 text-base">
