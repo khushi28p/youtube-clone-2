@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'; // Added useMemo for performance
+import React, { useMemo, useEffect } from 'react'; // Added useMemo for performance
 import {
   HomeIcon,
   PlayIcon,
@@ -24,7 +24,9 @@ import {
   AdjustmentsHorizontalIcon,
 } from '@heroicons/react/24/outline';
 import { NavLink, Link } from 'react-router-dom'; 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { fetchSubscribedChannelsSuccess } from '../redux/userSlice';
 
 const SidebarItem = ({ icon: Icon, name, path }) => {
   const content = (
@@ -54,7 +56,35 @@ const SidebarItem = ({ icon: Icon, name, path }) => {
 };
 
 const Sidebar = ({isOpen}) => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, subscribedChannels } = useSelector((state) => {
+    console.log("Entire Redux State (from useSelector):", state);
+    console.log("State.user (from useSelector):", state.user);
+    return state.user || {}});
+
+    console.log("currentUser (after destructuring):", currentUser);
+console.log("subscribedChannels (after destructuring):", subscribedChannels);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      if (currentUser) {
+        try {
+          const res = await axios.get('http://localhost:5000/api/users/subscribedChannels', {
+            headers: {
+              Authorization: `Bearer ${currentUser.token}`, 
+            },
+          });
+          dispatch(fetchSubscribedChannelsSuccess(res.data)); 
+        } catch (err) {
+          console.error('Failed to fetch subscribed channels:', err);
+        }
+      } else {
+        dispatch(fetchSubscribedChannelsSuccess([])); 
+      }
+    };
+
+    fetchSubscriptions();
+  }, [currentUser, dispatch]);
 
   const primaryNavItems = useMemo(
     () => [
@@ -72,18 +102,6 @@ const Sidebar = ({isOpen}) => {
       { icon: VideoCameraIcon, name: 'Your videos', path: '/your-videos' }, 
       { icon: ClockIcon, name: 'Watch later', path: '/watch-later' },
       { icon: HandThumbUpIcon, name: 'Liked videos', path: '/liked-videos' },
-    ],
-    []
-  );
-
-  const subscriptions = useMemo(
-    () => [
-      { name: 'User1', avatar: 'U1' },
-      { name: 'User 2', avatar: 'U' },
-      { name: 'ABC', avatar: 'A' },
-      { name: 'xyz', avatar: 'X' },
-      { name: 'hello', avatar: 'H' },
-      { name: 'Hii', avatar: 'HI' },
     ],
     []
   );
@@ -139,17 +157,29 @@ const Sidebar = ({isOpen}) => {
         <div>
           <h3 className="text-white text-md font-semibold mb-2">Subscriptions</h3>
           <nav>
-            {subscriptions.map((sub) => (
-              <div
-                key={sub.name} 
+            {subscribedChannels.map((channel) => (
+              <Link
+                to={`/channel/${channel._id}`} 
+                key={channel._id}
                 className="flex items-center p-2 rounded-lg hover:bg-zinc-800 cursor-pointer mb-1"
               >
-                <div className="h-6 w-6 rounded-full bg-zinc-700 flex items-center justify-center text-xs text-white mr-4">
-                  {sub.avatar}
-                </div>
-                <span className="text-white text-sm truncate">{sub.name}</span>
-              </div>
+                {channel.profilePicture ? ( 
+                  <img
+                    src={channel.profilePicture}
+                    alt={channel.channelName} 
+                    className="h-6 w-6 rounded-full mr-4 object-cover"
+                  />
+                ) : (
+                  <div className="h-6 w-6 rounded-full bg-zinc-700 flex items-center justify-center text-xs text-white mr-4">
+                    {channel.channelName ? channel.channelName.charAt(0).toUpperCase() : '?'}
+                  </div>
+                )}
+                <span className="text-white text-sm truncate">{channel.channelName}</span>
+              </Link>
             ))}
+            {subscribedChannels.length === 0 && (
+              <p className="text-zinc-400 text-sm p-2">No subscriptions yet.</p>
+            )}
           </nav>
         </div>
       ) : (

@@ -99,3 +99,23 @@ export const dislikeVideo = async(req, res) => {
         res.status(500).json({message: "Internal server error"});
     }
 }
+
+export const getSubscribedChannels = async(req, res) => {
+    try{
+        const user = await User.findById(req.user.id);
+
+        if(!user) return res.status(404).json({message: "User not found"});
+
+        const subscribedChannelIds = user.subscribedUsers;
+
+        const subscribedChannels = await Promise.all(subscribedChannelIds.map(async(channelId) => {
+            return await User.findById(channelId).select("_id channelName profilePicture");
+        }))
+
+        const filteredChannels = subscribedChannels.filter(Boolean);
+
+        res.status(200).json(filteredChannels);
+    } catch(error){
+        res.status(500).json({message: "Internal server error"});
+    }
+}

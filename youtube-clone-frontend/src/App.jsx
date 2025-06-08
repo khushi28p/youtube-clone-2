@@ -6,6 +6,7 @@ import YouTubeLayout from './pages/YoutubeLayout.jsx'
 import VideoPlayerSection from './pages/VideoPlayerSection.jsx'
 import Search from './components/Search.jsx'
 import MainContent from './components/MainContent.jsx'
+import ChannelPage from './components/ChannelPage.jsx'
 
 const App = () => {
   return (
@@ -28,6 +29,9 @@ const App = () => {
               </YouTubeLayout>} />
       <Route path="/search" element={<YouTubeLayout>
                 <Search/>
+              </YouTubeLayout>} />
+      <Route path="/channel/:id" element={<YouTubeLayout>
+                <ChannelPage/>
               </YouTubeLayout>} />
     </Routes>
     </BrowserRouter>

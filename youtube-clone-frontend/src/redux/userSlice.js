@@ -4,6 +4,7 @@ const initialState = {
     currentUser: JSON.parse(localStorage.getItem("currentUser")) || null,
     loading: false,
     error: false,
+    subscribedChannels: [],
 };
 
 export const userSlice = createSlice({
@@ -31,6 +32,9 @@ export const userSlice = createSlice({
             state.error = false,
             localStorage.removeItem("currentUser");
         },
+        fetchSubscribedChannelsSuccess: (state, action) => {
+      state.subscribedChannels = action.payload;
+    },
         subscription: (state, action) => {
             if(state.currentUser.subscribedUsers.includes(action.payload)){
                 state.currentUser.subscribedUsers.splice(
@@ -45,6 +49,6 @@ export const userSlice = createSlice({
     }
 })
 
-export const {loginStart, loginSuccess, loginFailure, logout, subscription} = userSlice.actions;
+export const {loginStart, loginSuccess, loginFailure, logout, fetchSubscribedChannelsSuccess, subscription} = userSlice.actions;
 
 export default userSlice.reducer;
