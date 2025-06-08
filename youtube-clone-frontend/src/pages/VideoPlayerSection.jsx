@@ -31,7 +31,7 @@ const VideoPlayerSection = () => {
             {videoId && <VideoPlayer videoId={videoId} />}
         </div>
         <div className="lg:w-1/3 w-full min-w-[280px]"> 
-            <RecommendationSection tags={currentVideo.tags}/>
+            <RecommendationSection tags={currentVideo?.tags}/>
         </div>
         </div>
   )

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.put("/:id", auth, updateUser);  // update user
 router.delete("/:id", auth, deleteUser);   // delete user
-router.get("/find/:id", auth, getUser);     // get a user
+router.get("/find/:id", getUser);     // get a user
 router.put("/sub/:id", auth, subscribeUser);     // subscribe a user
 router.put("/unsub/:id", auth, unsubscribeUser);     // unsubscribe a user
 router.put("/like/:videoId", auth, likeVideo);     // like a video
