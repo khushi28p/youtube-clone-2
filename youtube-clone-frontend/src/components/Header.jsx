@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import {  MagnifyingGlassIcon, BellIcon, UserCircleIcon, EllipsisVerticalIcon, VideoCameraIcon } from '@heroicons/react/24/outline'; // Example icons
 import { Bars3Icon } from '@heroicons/react/24/solid';
 import { Link, useNavigate} from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import UploadVideoForm from './UploadVideoForm';
+import { logout } from '../redux/userSlice';
 
 const Header = () => {
   const {currentUser} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState('');
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e) =>{
@@ -20,11 +23,9 @@ const Header = () => {
   }
 
   const openUploadModal = () => {
-    // Only open if a user is logged in
     if (currentUser) {
       setIsUploadModalOpen(true);
     } else {
-      // Redirect to login or show a message if not logged in
       alert("Please sign in to upload a video.");
       navigate("/login"); 
     }
@@ -32,6 +33,27 @@ const Header = () => {
 
   const closeUploadModal = () => {
     setIsUploadModalOpen(false);
+  };
+
+  const handleProfileClick = () => {
+    setShowDropdown(!showDropdown);
+  }
+
+  const handleSignOut = () => {
+    dispatch(logout());
+
+    localStorage.removeItem("currentUser");
+
+    navigate("/login");
+    setShowDropdown(false);
+
+    window.location.reload();
+  }
+
+  const getEmailPrefix = (email) => {
+    if (!email) return ''; 
+    const atIndex = email.indexOf('@');
+    return atIndex !== -1 ? email.substring(0, atIndex) : email;
   };
 
   return (
@@ -66,11 +88,60 @@ const Header = () => {
               className="h-6 w-6 text-white cursor-pointer"
               onClick={openUploadModal}
             />
-          <Link>
-            <button>
-              <img src={currentUser.profilePicture} alt={currentUser.channelName} className='h-10 rounded-full' />
-            </button>
-          </Link>
+          {currentUser.profilePicture ? (
+              <img
+                src={currentUser.profilePicture}
+                alt={currentUser.channelName}
+                className='h-10 w-10 rounded-full object-cover cursor-pointer'
+                onClick={handleProfileClick} 
+              />
+            ) : (
+              <div
+                className='h-10 w-10 rounded-full bg-zinc-700 flex items-center justify-center text-xl font-bold cursor-pointer'
+                onClick={handleProfileClick}
+              >
+                {currentUser.channelName?.charAt(0).toUpperCase()}
+              </div>
+            )}
+
+            {/* Dropdown Menu */}
+            {showDropdown && (
+              <div className="absolute top-14 right-0 bg-[#282828] rounded-lg shadow-xl w-60 z-30 overflow-hidden">
+                <div className="flex items-center p-4 border-b border-zinc-700">
+                  {currentUser.profilePicture ? (
+                    <img src={currentUser.profilePicture} alt="Profile" className='h-10 w-10 rounded-full object-cover mr-3' />
+                  ) : (
+                    <div className='h-10 w-10 rounded-full bg-zinc-600 flex items-center justify-center text-xl font-bold mr-3'>
+                      {currentUser.channelName?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-white font-semibold text-sm">{currentUser.channelName}</p>
+                    <p className="text-zinc-400 text-xs">{getEmailPrefix(currentUser.email)}</p>
+                  </div>
+                </div>
+                <Link
+                  to={`/channel/${currentUser._id}`}
+                  className="block px-4 py-2 text-white hover:bg-zinc-700"
+                  onClick={() => setShowDropdown(false)} 
+                >
+                  View your channel
+                </Link>
+                <Link
+                  to="/settings"
+                  className="block px-4 py-2 text-white hover:bg-zinc-700"
+                  onClick={() => setShowDropdown(false)}  
+                >
+                  Settings
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="w-full text-left px-4 py-2 text-white hover:bg-zinc-700"
+                >
+                  Sign out
+                </button>
+              </div>
+            )}
       </div>
     ) :(
     <div className="flex items-center space-x-6">

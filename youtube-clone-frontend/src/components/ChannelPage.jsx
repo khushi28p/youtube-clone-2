@@ -81,7 +81,7 @@ const ChannelPage = () => {
   };
 
   return (
-    <div className="bg-bg-dark min-h-[calc(100vh-4rem)] p-4 text-white">
+    <div className="bg-bg-dark min-h-[calc(100vh-4rem)] px-16 text-white">
       {/* Banner Image */}
       {channel.bannerImage && (
         <div className="w-full h-48 bg-cover bg-center rounded-lg overflow-hidden mb-6"
@@ -113,21 +113,34 @@ const ChannelPage = () => {
           <p className="text-zinc-300 text-sm max-w-2xl mb-4">
             {channel.description || 'No description provided.'}
           </p>
-          {!isOwnChannel && currentUser && ( 
-            <button
-              onClick={handleSubscribe}
-              className={`py-2 px-6 rounded-full font-semibold text-sm transition-colors duration-200
-                ${isSubscribed ? 'bg-zinc-700 text-white hover:bg-zinc-600' : 'bg-red-600 text-white hover:bg-red-700'}
-              `}
-            >
-              {isSubscribed ? 'SUBSCRIBED' : 'SUBSCRIBE'}
-            </button>
-          )}
-          {!currentUser && ( 
-             <Link to="/login" className="py-2 px-6 rounded-full font-semibold text-sm bg-blue-600 text-white hover:bg-blue-700">
-               Sign In to Subscribe
-             </Link>
-          )}
+          {isOwnChannel ? (
+                        // Options for YOUR OWN Channel
+                        <div className="flex gap-4 justify-center md:justify-start">
+                            <Link to="/edit-channel" className="py-2 px-6 rounded-full font-semibold text-sm bg-zinc-700 text-white hover:bg-zinc-600">
+                                Customize Channel
+                            </Link>
+                            <Link to="/manage-videos" className="py-2 px-6 rounded-full font-semibold text-sm bg-blue-600 text-white hover:bg-blue-700">
+                                Manage Videos
+                            </Link>
+                        </div>
+                    ) : (
+                        <>
+                            {currentUser ? ( 
+                                <button
+                                    onClick={handleSubscribe}
+                                    className={`py-2 px-6 rounded-full font-semibold text-sm transition-colors duration-200
+                                        ${isSubscribed ? 'bg-zinc-700 text-white hover:bg-zinc-600' : 'bg-red-600 text-white hover:bg-red-700'}
+                                    `}
+                                >
+                                    {isSubscribed ? 'SUBSCRIBED' : 'SUBSCRIBE'}
+                                </button>
+                            ) : (
+                                <Link to="/login" className="py-2 px-6 rounded-full font-semibold text-sm bg-blue-600 text-white hover:bg-blue-700">
+                                    Sign In to Subscribe
+                                </Link>
+                            )}
+                        </>
+                    )}
         </div>
       </div>
 

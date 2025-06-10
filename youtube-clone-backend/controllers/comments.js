@@ -24,7 +24,7 @@ export const deleteComment = async(req, res) => {
         const video = await Video.findById(comment.videoId);
         const reqUserId = new mongoose.Types.ObjectId(req.user.id); 
 
-        if(reqUserId.equals(comment.userId) || (video && reqUserId.equals(video.userId))){ // Use .equals() for ObjectId comparison
+        if(reqUserId.equals(comment.userId) || (video && reqUserId.equals(video.userId))){ 
             await Comment.findByIdAndDelete(req.params.id);
             res.status(200).json({message: "Comment deleted successfully!!!"});
         }
