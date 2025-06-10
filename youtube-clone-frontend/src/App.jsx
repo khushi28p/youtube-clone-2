@@ -7,6 +7,7 @@ import VideoPlayerSection from './pages/VideoPlayerSection.jsx'
 import Search from './components/Search.jsx'
 import MainContent from './components/MainContent.jsx'
 import ChannelPage from './components/ChannelPage.jsx'
+import ChannelCustomization from './components/ChannelCustomization.jsx'
 
 const App = () => {
   return (
@@ -32,6 +33,9 @@ const App = () => {
               </YouTubeLayout>} />
       <Route path="/channel/:id" element={<YouTubeLayout>
                 <ChannelPage/>
+              </YouTubeLayout>} />
+      <Route path="/edit-channel" element={<YouTubeLayout>
+                <ChannelCustomization/>
               </YouTubeLayout>} />
     </Routes>
     </BrowserRouter>
