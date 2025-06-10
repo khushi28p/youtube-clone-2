@@ -1,17 +1,16 @@
 import React, { useMemo, useEffect } from 'react'; // Added useMemo for performance
 import {
   HomeIcon,
-  PlayIcon,
   ListBulletIcon,
   ClockIcon,
   FolderIcon,
   HandThumbUpIcon,
-  PhotoIcon,
   QueueListIcon,
   UserCircleIcon,
-  VideoCameraIcon, 
+  VideoCameraIcon,
 } from '@heroicons/react/24/outline';
 import { FireIcon } from '@heroicons/react/24/solid';
+import { IoIosArrowDropright } from "react-icons/io";
 import {
   ShoppingBagIcon,
   MusicalNoteIcon,
@@ -41,7 +40,7 @@ const SidebarItem = ({ icon: Icon, name, path }) => {
       to={path}
 
       className={({ isActive }) =>
-        `flex items-center p-2 rounded-lg cursor-pointer mb-1 ${
+        `flex items-center p-2 rounded-lg cursor-pointer mb-2 ${
           isActive ? 'bg-zinc-800/70' : 'hover:bg-zinc-800/70'
         }`
       }
@@ -49,7 +48,7 @@ const SidebarItem = ({ icon: Icon, name, path }) => {
       {content}
     </NavLink>
   ) : (
-    <div className="flex items-center p-2 rounded-lg hover:bg-zinc-800 cursor-pointer mb-1">
+    <div className="flex items-center p-2 rounded-lg hover:bg-zinc-800 cursor-pointer mb-2">
       {content}
     </div>
   );
@@ -135,22 +134,22 @@ const Sidebar = ({isOpen}) => {
         ))}
       </nav>
 
-      <hr className="border-zinc-800 mb-4" />
+      <hr className="border-zinc-800 my-2" />
 
       {/* You Section */}
-      <h3 className="text-white text-md font-semibold mb-2">You</h3>
+      <Link to='/you' className="flex items-center align-center gap-2 text-white text-md font-semibold mb-2 hover:bg-zinc-800/70 w-full px-2 rounded-lg cursor-pointer py-2"><span>You </span><IoIosArrowDropright size={20} /></Link>
       <nav className="mb-2">
         {youSectionItems.map((item) => (
           <SidebarItem key={item.name} {...item} /> 
         ))}
       </nav>
 
-      <hr className="border-zinc-800 mb-4" />
+      <hr className="border-zinc-800 my-2" />
 
       {/* Subscriptions */}
       {currentUser ? (
         <div>
-          <h3 className="text-white text-md font-semibold mb-2">Subscriptions</h3>
+          <h3 className="text-white text-md font-semibold mb-2 py-2">Subscriptions</h3>
           <nav>
             {subscribedChannels.map((channel) => (
               <Link
@@ -189,17 +188,17 @@ const Sidebar = ({isOpen}) => {
         </Link>
       )}
 
-      <hr className="border-zinc-800 mb-4" />
+      <hr className="border-zinc-800 my-2" />
 
       {/* Explore section */}
-      <h3 className="text-white text-md font-semibold mb-2">Explore</h3>
+      <h3 className="text-white text-md font-semibold mb-2 py-2">Explore</h3>
       <nav className="mb-2">
         {exploreItems.map((item) => (
           <SidebarItem key={item.name} {...item} />
         ))}
       </nav>
 
-      <hr className="border-zinc-800 mb-4" />
+      <hr className="border-zinc-800 my-2" />
     </aside>
   );
 };

@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import {  MagnifyingGlassIcon, BellIcon, UserCircleIcon, EllipsisVerticalIcon, VideoCameraIcon } from '@heroicons/react/24/outline'; // Example icons
+import { IoSettingsOutline } from "react-icons/io5";
+import { GoSignOut } from "react-icons/go";
 import { Bars3Icon } from '@heroicons/react/24/solid';
 import { Link, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
@@ -106,8 +108,9 @@ const Header = () => {
 
             {/* Dropdown Menu */}
             {showDropdown && (
-              <div className="absolute top-14 right-0 bg-[#282828] rounded-lg shadow-xl w-60 z-30 overflow-hidden">
-                <div className="flex items-center p-4 border-b border-zinc-700">
+              <div className="absolute top-14 right-4 bg-[#282828] rounded-lg shadow-xl w-60 z-30 overflow-hidden">
+                <div className='flex flex-col p-4 border-b border-zinc-700'>
+                <div className="flex items-center ">
                   {currentUser.profilePicture ? (
                     <img src={currentUser.profilePicture} alt="Profile" className='h-10 w-10 rounded-full object-cover mr-3' />
                   ) : (
@@ -116,30 +119,37 @@ const Header = () => {
                     </div>
                   )}
                   <div>
-                    <p className="text-white font-semibold text-sm">{currentUser.channelName}</p>
-                    <p className="text-zinc-400 text-xs">{getEmailPrefix(currentUser.email)}</p>
+                    <p className="text-white font-semibold text-md">{currentUser.channelName}</p>
+                    <p className="text-zinc-400 text-sm">@{getEmailPrefix(currentUser.email)}</p>
+                    
                   </div>
+                  
                 </div>
                 <Link
                   to={`/channel/${currentUser._id}`}
-                  className="block px-4 py-2 text-white hover:bg-zinc-700"
+                  className="flex justify-center text-sm text-blue-400 pt-2"
                   onClick={() => setShowDropdown(false)} 
                 >
                   View your channel
                 </Link>
+                </div>
+                <div className='my-2'>
                 <Link
                   to="/settings"
-                  className="block px-4 py-2 text-white hover:bg-zinc-700"
+                  className="flex gap-4 px-4 py-2 text-white hover:bg-zinc-700"
                   onClick={() => setShowDropdown(false)}  
                 >
+                  <IoSettingsOutline size={20}/>
                   Settings
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="w-full text-left px-4 py-2 text-white hover:bg-zinc-700"
+                  className="flex gap-4 w-full text-left px-4 py-2 text-white hover:bg-zinc-700"
                 >
+                  <GoSignOut size={20}/>
                   Sign out
                 </button>
+                </div>
               </div>
             )}
       </div>

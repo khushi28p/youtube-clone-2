@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import VideoCard from './VideoCard';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const MainContent = ({type}) => {
+  const {currentUser} = useSelector((state) => state.user);
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     const fetchVideos = async() => {
-      const res = await axios.get(`http://localhost:5000/api/videos/${type}`);
+      const token = currentUser.token;
+      const res = await axios.get(`http://localhost:5000/api/videos/${type}`, {headers: {
+            Authorization: `Bearer ${token}`, 
+          }});
       setVideos(res.data);
     }
 

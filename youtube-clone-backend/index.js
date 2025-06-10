@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -22,10 +21,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/videos', videoRoutes);
 app.use('/api/comments', commentRoutes);
-
-app.get('/', (req, res) => {
-    res.send("Server is running");
-})
 
 connectDB();
 
