@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import {format} from 'timeago.js'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import { BASE_URL } from '../config';
 
 const RecommendationSection = ({tags}) => {
   const [recommendedVideos, setRecommendedVideos] = useState([]);
@@ -11,7 +12,7 @@ const RecommendationSection = ({tags}) => {
     const fetchVideos = async() => {
       if (tags && tags.length > 0) { 
         try {
-          const res = await axios.get(`http://localhost:5000/api/videos/tags?tags=${tags.join(',')}`); 
+          const res = await axios.get(`${BASE_URL}/videos/tags?tags=${tags.join(',')}`); 
           setRecommendedVideos(res.data);
         } catch (error) {
           console.error("Error fetching recommended videos:", error);

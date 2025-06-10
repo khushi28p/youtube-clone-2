@@ -10,6 +10,7 @@ import { MdVerified } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
 import { BiLike, BiDislike, BiSolidLike, BiSolidDislike } from "react-icons/bi";
 import Comment from './Comment';
+import { BASE_URL } from '../config';
 
 const VideoPlayer = ({ videoId }) => {
   const { currentUser } = useSelector((state) => state.user || {});
@@ -24,7 +25,7 @@ const VideoPlayer = ({ videoId }) => {
         const channelId = currentVideo.userId;
         try {
           const channelRes = await axios.get(
-            `http://localhost:5000/api/users/find/${channelId}`
+            `${BASE_URL}/users/find/${channelId}`
           );
           setChannel(channelRes.data);
         } catch (error) {
@@ -47,7 +48,7 @@ const VideoPlayer = ({ videoId }) => {
     if (!currentVideo) return; // Ensure video is loaded
 
     try {
-      await axios.put(`http://localhost:5000/api/users/like/${currentVideo._id}`, {}, {
+      await axios.put(`${BASE_URL}/users/like/${currentVideo._id}`, {}, {
         headers: {
           'Authorization': `Bearer ${currentUser.token}`
         }
@@ -67,7 +68,7 @@ const VideoPlayer = ({ videoId }) => {
     if (!currentVideo) return; // Ensure video is loaded
 
     try {
-      await axios.put(`http://localhost:5000/api/users/dislike/${currentVideo._id}`, {}, {
+      await axios.put(`${BASE_URL}/users/dislike/${currentVideo._id}`, {}, {
         headers: {
           'Authorization': `Bearer ${currentUser.token}`
         }
@@ -91,9 +92,9 @@ const VideoPlayer = ({ videoId }) => {
 
     try {
       if (currentUser.subscribedUsers?.includes(channel._id)) {
-        await axios.put(`http://localhost:5000/api/users/unsub/${channel._id}`, {}, { headers: { 'Authorization': `Bearer ${currentUser.token}` } });
+        await axios.put(`${BASE_URL}/users/unsub/${channel._id}`, {}, { headers: { 'Authorization': `Bearer ${currentUser.token}` } });
       } else {
-        await axios.put(`http://localhost:5000/api/users/sub/${channel._id}`, {}, { headers: { 'Authorization': `Bearer ${currentUser.token}` } });
+        await axios.put(`${BASE_URL}/users/sub/${channel._id}`, {}, { headers: { 'Authorization': `Bearer ${currentUser.token}` } });
       }
       dispatch(subscription(channel._id));
     } catch (error) {

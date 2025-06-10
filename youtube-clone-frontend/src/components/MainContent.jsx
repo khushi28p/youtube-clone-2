@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import VideoCard from './VideoCard';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { BASE_URL } from '../config';
 
 const MainContent = ({type}) => {
   const {currentUser} = useSelector((state) => state.user);
@@ -10,7 +11,7 @@ const MainContent = ({type}) => {
   useEffect(() => {
     const fetchVideos = async() => {
       const token = currentUser.token;
-      const res = await axios.get(`http://localhost:5000/api/videos/${type}`, {headers: {
+      const res = await axios.get(`${BASE_URL}/videos/${type}`, {headers: {
             Authorization: `Bearer ${token}`, 
           }});
       setVideos(res.data);

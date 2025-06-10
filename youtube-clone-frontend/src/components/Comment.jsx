@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { format } from 'timeago.js'
+import { BASE_URL } from '../config'
 
 const Comment = ({videoId}) => {
     const {currentUser} = useSelector((state) => state.user);
@@ -10,7 +11,7 @@ const Comment = ({videoId}) => {
     useEffect(() => {
       const fetchComments = async() => {
         try{
-          const res = await axios.get(`http://localhost:5000/api/comments/${videoId}`);
+          const res = await axios.get(`${BASE_URL}/comments/${videoId}`);
           setComments(res.data);
         }
         catch(error){

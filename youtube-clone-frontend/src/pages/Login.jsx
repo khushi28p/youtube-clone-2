@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from "firebase/auth"
+import { BASE_URL } from '../config';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
         e.preventDefault();
         dispatch(loginStart());
         try{
-            const response = await axios.post("http://localhost:5000/api/auth/login", {
+            const response = await axios.post(`${BASE_URL}/auth/login`, {
                 email,
                 password,
             });
@@ -37,7 +38,7 @@ const Login = () => {
       dispatch(loginStart());
       signInWithPopup(auth, provider)
       .then((result) => {
-        axios.post("http://localhost:5000/api/auth/google", {
+        axios.post(`${BASE_URL}/auth/google`, {
           channelName: result.user.displayName,
           email: result.user.email,
           profilePicture: result.user.photoURL,

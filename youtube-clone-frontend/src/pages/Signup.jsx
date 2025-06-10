@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Login from "./Login";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../config";
 
 const Signup = () => {
     const [channelName, setChannelName] = useState("");
@@ -16,7 +17,7 @@ const Signup = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try{
-            const response = await axios.post("http://localhost:5000/api/auth/signup", {
+            const response = await axios.post( `${BASE_URL}/auth/signup`, {
                 channelName,
                 email,
                 password,

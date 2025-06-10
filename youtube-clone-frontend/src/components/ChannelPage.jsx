@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { subscription } from '../redux/userSlice';
 import { Link } from 'react-router-dom';
 import { format } from 'timeago.js';
+import { BASE_URL } from '../config';
 
 const ChannelPage = () => {
     const {id} = useParams();
@@ -22,11 +23,11 @@ const ChannelPage = () => {
             setError(null);
 
             try{
-                const channelRes = await axios.get(`http://localhost:5000/api/users/find/${id}`);
+                const channelRes = await axios.get(`${BASE_URL}/users/find/${id}`);
 
                 setChannel(channelRes.data);
 
-                const videoRes = await axios.get(`http://localhost:5000/api/videos/channel/${id}`);
+                const videoRes = await axios.get(`${BASE_URL}/videos/channel/${id}`);
 
                 setVideos(videoRes.data);
             }
@@ -62,13 +63,13 @@ const ChannelPage = () => {
   const handleSubscribe = async () => {
     try {
       if (isSubscribed) {
-        await axios.put(`http://localhost:5000/api/users/unsub/${channel._id}`, {}, {
+        await axios.put(`${BASE_URL}/users/unsub/${channel._id}`, {}, {
           headers: { Authorization: `Bearer ${currentUser.token}` }
         });
         setChannel(prev => ({ ...prev, subscribers: prev.subscribers - 1 }));
         dispatch(subscription(channel._id));
       } else {
-        await axios.put(`http://localhost:5000/api/users/sub/${channel._id}`, {}, {
+        await axios.put(`${BASE_URL}/users/sub/${channel._id}`, {}, {
           headers: { Authorization: `Bearer ${currentUser.token}` }
         });
         setChannel(prev => ({ ...prev, subscribers: prev.subscribers + 1 }));

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { format } from 'timeago.js';
+import { BASE_URL } from '../config';
 
 const Search = () => {
   const location = useLocation();
@@ -13,7 +14,7 @@ const Search = () => {
       try{
         const query = new URLSearchParams(location.search).get('q');
         if(query){
-          const res = await axios.get(`http://localhost:5000/api/videos/search?q=${query}`);
+          const res = await axios.get(`${BASE_URL}/videos/search?q=${query}`);
           setSearchResults(res.data);
         } else{
           setSearchResults([]);

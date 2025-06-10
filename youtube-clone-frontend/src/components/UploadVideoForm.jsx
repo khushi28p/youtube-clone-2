@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { BASE_URL } from '../config';
 
 const UploadVideoForm = ({onClose}) => {
     const {currentUser} = useSelector((state) => state.user);
@@ -34,7 +35,7 @@ const token = currentUser?.token;
 
     try {
       const signatureResponse = await axios.post(
-        'http://localhost:5000/api/upload/sign', 
+        `${BASE_URL}/upload/sign`, 
         { resource_type: resourceType, folder: 'youtube_clone_uploads' }, 
         {
           headers: {
@@ -125,7 +126,7 @@ const token = currentUser?.token;
       };
 
       const response = await axios.post(
-        'http://localhost:5000/api/videos', 
+        `${BASE_URL}/videos`, 
         videoData,
         {
           headers: {

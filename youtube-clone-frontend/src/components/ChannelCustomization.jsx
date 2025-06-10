@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { loginSuccess } from '../redux/userSlice'; 
 import {UserCircleIcon} from '@heroicons/react/24/outline';
+import { BASE_URL } from '../config';
 
 const ChannelCustomization = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -30,7 +31,7 @@ const ChannelCustomization = () => {
     const fetchChannelDetails = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:5000/api/users/find/${currentUser._id}`);
+        const res = await axios.get(`${BASE_URL}/users/find/${currentUser._id}`);
         const data = res.data;
         setChannelName(data.channelName || '');
         setDescription(data.description || '');
@@ -52,7 +53,7 @@ const ChannelCustomization = () => {
 
     setUploading(true);
     try {
-      const { data: signatureData } = await axios.post('http://localhost:5000/api/upload/sign', {
+      const { data: signatureData } = await axios.post(`${BASE_URL}/upload/sign`, {
         folder: folderName,
         resource_type: 'image', 
       }, {
@@ -159,7 +160,7 @@ const ChannelCustomization = () => {
         bannerImage: finalBannerImageUrl,
       };
 
-      const res = await axios.put(`http://localhost:5000/api/users/${currentUser._id}`, updateData, {
+      const res = await axios.put(`${BASE_URL}/users/${currentUser._id}`, updateData, {
         headers: {
           'Content-Type': 'application/json', 
           Authorization: `Bearer ${currentUser.token}`,

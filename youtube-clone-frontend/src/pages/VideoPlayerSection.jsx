@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { fetchSuccess } from '../redux/videoSlice'
+import { BASE_URL } from '../config'
 
 const VideoPlayerSection = () => {
   const {currentVideo} = useSelector((state) => state.video);
@@ -15,10 +16,10 @@ const VideoPlayerSection = () => {
   useEffect(() => {
     const fetchVideo = async() => {
       try{
-        const videoRes = await axios.get(`http://localhost:5000/api/videos/find/${videoId}`);
+        const videoRes = await axios.get(`${BASE_URL}/videos/find/${videoId}`);
         dispatch(fetchSuccess(videoRes.data)); 
 
-        await axios.put(`http://localhost:5000/api/videos/view/${videoId}`); 
+        await axios.put(`${BASE_URL}/videos/view/${videoId}`); 
         console.log("View count increased successfully!"); 
       }catch (error) {
         console.error("Error fetching video data:", error);

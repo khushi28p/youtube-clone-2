@@ -26,6 +26,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { fetchSubscribedChannelsSuccess } from '../redux/userSlice';
+import { BASE_URL } from '../config';
 
 const SidebarItem = ({ icon: Icon, name, path }) => {
   const content = (
@@ -63,12 +64,12 @@ const Sidebar = ({isOpen}) => {
     const fetchSubscriptions = async () => {
       if (currentUser) {
         try {
-          const res = await axios.get('http://localhost:5000/api/users/subscribedChannels', {
+          const res = await axios.get(`${BASE_URL}/users/subscribedChannels`, {
             headers: {  
               Authorization: `Bearer ${currentUser.token}`, 
             },
           });
-          dispatch(fetchSubscribedChannelsSuccess(res.data)); 
+          dispatch(fetchSubscribedChannelsSuccess(res.data || [])); 
         } catch (err) {
           console.error('Failed to fetch subscribed channels:', err);
         }
@@ -151,27 +152,28 @@ const Sidebar = ({isOpen}) => {
         <div>
           <h3 className="text-white text-md font-semibold mb-2 py-2">Subscriptions</h3>
           <nav>
-            {subscribedChannels.map((channel) => (
-              <Link
-                to={`/channel/${channel._id}`} 
-                key={channel._id}
-                className="flex items-center p-2 rounded-lg hover:bg-zinc-800 cursor-pointer mb-1"
-              >
-                {channel.profilePicture ? ( 
-                  <img
-                    src={channel.profilePicture}
-                    alt={channel.channelName} 
-                    className="h-6 w-6 rounded-full mr-4 object-cover"
-                  />
-                ) : (
-                  <div className="h-6 w-6 rounded-full bg-zinc-700 flex items-center justify-center text-xs text-white mr-4">
-                    {channel.channelName ? channel.channelName.charAt(0).toUpperCase() : '?'}
-                  </div>
-                )}
-                <span className="text-white text-sm truncate">{channel.channelName}</span>
-              </Link>
-            ))}
-            {subscribedChannels.length === 0 && (
+            {Array.isArray(subscribedChannels) && subscribedChannels.length > 0 ? (
+              subscribedChannels.map((channel) => (
+                <Link
+                  to={`/channel/${channel._id}`}
+                  key={channel._id}
+                  className="flex items-center p-2 rounded-lg hover:bg-zinc-800 cursor-pointer mb-1"
+                >
+                  {channel.profilePicture ? (
+                    <img
+                      src={channel.profilePicture}
+                      alt={channel.channelName}
+                      className="h-6 w-6 rounded-full mr-4 object-cover"
+                    />
+                  ) : (
+                    <div className="h-6 w-6 rounded-full bg-zinc-700 flex items-center justify-center text-xs text-white mr-4">
+                      {channel.channelName ? channel.channelName.charAt(0).toUpperCase() : '?'}
+                    </div>
+                  )}
+                  <span className="text-white text-sm truncate">{channel.channelName}</span>
+                </Link>
+              ))
+            ) : (
               <p className="text-zinc-400 text-sm p-2">No subscriptions yet.</p>
             )}
           </nav>
